@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-.idea
-*.imp
-out
-=======
-/Playground_Java/.idea
-
-/Playground_Java/*.imp
-
-/Playground_Java/out
-
-.idea
-
-.imp
-
-out
-
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -22,4 +5,3 @@ out
 *.ipr
 .mvn
 mvnw*
->>>>>>> [Task] Playground_Java - Add git ignore
