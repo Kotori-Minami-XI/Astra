@@ -40,9 +40,9 @@ class LogHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] objects) throws Throwable {
-        Object o = method.invoke(target, objects); //执行方法并获取代理对象
+        proxy = method.invoke(target, objects); //执行方法并获取代理对象
         this.printLog();
-        return o;
+        return proxy;
     }
 
     private void printLog() {
