@@ -50,6 +50,6 @@ public class CglibProxy implements MethodInterceptor {
         System.out.println("权限----------------");
         methodProxy.invokeSuper(o, objects);
         System.out.println("日志----------------");
-        return null;
+        return o;
     }
 }
