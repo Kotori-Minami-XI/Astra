@@ -36,7 +36,8 @@ public class KLock {
         Thread currentThread = Thread.currentThread();
         int c = this.getState();
         if (c == 0) { // 当前同步器还没有被加锁
-            if (waiters.size() == 0 || compareAndSwapState(0 ,1)) {
+            if ((waiters.size() == 0 || currentThread == this.waiters.peek()) &&
+                    compareAndSwapState(0 ,1)) {
                 this.setLockHolder(currentThread);
                 return true;
             }
@@ -50,22 +51,32 @@ public class KLock {
             return;
         }
         Thread currentThread = Thread.currentThread();
+        this.waiters.add(currentThread);
 
         // 开始自旋等待
         while (true) {
             // 获取到锁，退出自旋
-            if (this.acquire()) {
+            if (this.waiters.peek() == currentThread && this.acquire()) {
+                this.waiters.poll(); //把唤醒的线程从队列中剔除
                 break;
             }
             //阻塞当前线程
             LockSupport.park(currentThread);
-
         }
 
     }
 
     public void unlock() {
+        if (Thread.currentThread() != this.lockHolder) {
+            throw new RuntimeException("The current thread is not lock holder");
+        }
 
+
+        if(compareAndSwapState(this.getState(),0)) {
+            setLockHolder(null);
+            Thread frontThread = this.waiters.peek();
+            LockSupport.unpark(frontThread); //唤醒队列第一个线程
+        }
     }
 
     // 工具类获取Unsafe实例
