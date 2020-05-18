@@ -16,7 +16,7 @@ import java.util.ListIterator;
  *    
  * 3. ListIterator可以定位当前的索引位置，nextIndex()和previousIndex()可以实现。Iterator没有此功能。
  *
- * 4. 都可实现删除对象，但是ListIterator可以实现对象的修改，set()方法可属以实现。Iierator仅能遍历，不能修改。
+ * 4. 都可实现删除对象，但是ListIterator可以实现对象的修改，set()方法可属以实现。Iterator仅能遍历，不能修改。
  */
 public class MyLinkedList {
     @Test
