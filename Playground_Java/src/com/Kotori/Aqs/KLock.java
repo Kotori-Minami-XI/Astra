@@ -5,7 +5,6 @@ import sun.misc.Unsafe;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.locks.LockSupport;
 
-
 public class KLock {
     // 记录当前加锁次数
     private volatile int state;
