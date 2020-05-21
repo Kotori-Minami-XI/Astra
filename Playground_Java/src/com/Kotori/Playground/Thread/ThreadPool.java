@@ -45,6 +45,7 @@ class Task implements Runnable
             Long duration = (long) (Math.random() * 10);
             System.out.println("Doing a task during : " + name);
             TimeUnit.SECONDS.sleep(duration);
+            System.out.println("task done : " + name);
         }
         catch (InterruptedException e)
         {
