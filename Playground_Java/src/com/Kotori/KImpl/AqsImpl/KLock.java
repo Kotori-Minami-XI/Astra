@@ -1,10 +1,8 @@
-package com.Kotori.Aqs;
+package com.Kotori.KImpl.AqsImpl;
 
 import sun.misc.Unsafe;
 
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 import java.util.concurrent.locks.LockSupport;
 
 public class KLock {

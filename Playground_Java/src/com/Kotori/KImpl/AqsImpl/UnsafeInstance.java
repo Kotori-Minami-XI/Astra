@@ -1,4 +1,4 @@
-package com.Kotori.Aqs;
+package com.Kotori.KImpl.AqsImpl;
 
 import sun.misc.Unsafe;
 
