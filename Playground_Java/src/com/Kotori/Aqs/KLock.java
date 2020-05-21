@@ -3,6 +3,8 @@ package com.Kotori.Aqs;
 import sun.misc.Unsafe;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 import java.util.concurrent.locks.LockSupport;
 
 public class KLock {
@@ -13,7 +15,7 @@ public class KLock {
     private Thread lockHolder;
 
     // 等待队列
-    private ConcurrentLinkedDeque<Thread> waiters = new ConcurrentLinkedDeque();
+    private ConcurrentLinkedQueue<Thread> waiters = new ConcurrentLinkedQueue();
 
     public int getState() {
         return state;
@@ -57,19 +59,17 @@ public class KLock {
             // 获取到锁，退出自旋
             if (this.waiters.peek() == currentThread && this.acquire()) {
                 this.waiters.poll(); //把唤醒的线程从队列中剔除
-                break;
+                return;
             }
             //阻塞当前线程
             LockSupport.park(currentThread);
         }
-
     }
 
     public void unlock() {
         if (Thread.currentThread() != this.lockHolder) {
             throw new RuntimeException("The current thread is not lock holder");
         }
-
 
         if(compareAndSwapState(this.getState(),0)) {
             setLockHolder(null);
@@ -94,7 +94,5 @@ public class KLock {
     public Boolean compareAndSwapState(int expected, int update) {
         return unsafe.compareAndSwapInt(this, stateOffset, expected, update);
     }
-
-
 
 }

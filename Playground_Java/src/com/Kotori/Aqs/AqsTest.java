@@ -30,9 +30,7 @@ public class AqsTest {
 
 class Food {
     static volatile Integer foodNum = 5;
-    public void consumeFood() {
-
-    }
+    static volatile KLock locker = new KLock();
 }
 
 class Cook implements Runnable {
@@ -53,6 +51,7 @@ class Cook implements Runnable {
     @Override
     public void run() {
         while (true) {
+            Food.locker.lock();
             try {
                 if (Food.foodNum < 20) {
                     Food.foodNum++;
@@ -62,6 +61,7 @@ class Cook implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            Food.locker.unlock();
         }
     }
 }
@@ -84,6 +84,7 @@ class Eater implements Runnable {
     @Override
     public void run() {
         while (true) {
+            Food.locker.lock();
             try {
                 if (Food.foodNum > 0) {
                     Food.foodNum--;
@@ -93,6 +94,7 @@ class Eater implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            Food.locker.unlock();
         }
     }
 }
