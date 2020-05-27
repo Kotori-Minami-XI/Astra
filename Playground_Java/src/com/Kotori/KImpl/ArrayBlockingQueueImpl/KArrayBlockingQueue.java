@@ -56,6 +56,7 @@ public class KArrayBlockingQueue<T> {
             takeIndex = 0;
         }
         this.count--;
+        System.out.println(Thread.currentThread().getName() + "消耗了一个Iron，现有"+ this.count +",还能存放的Iron为"+this.remainingCapacity());
         return res;
     }
 
@@ -78,6 +79,7 @@ public class KArrayBlockingQueue<T> {
             putIndex = 0;
         }
         this.count++;
+        System.out.println(Thread.currentThread().getName() + "生产了一个Iron，现有"+ this.count +",还能存放的Iron为"+this.remainingCapacity());
     }
 
     public int remainingCapacity() {
