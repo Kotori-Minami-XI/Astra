@@ -1,5 +1,6 @@
 package com.Kotori.KImpl.ArrayBlockingQueueImpl;
 
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -32,32 +33,57 @@ public class KLinkedBlockingQueue<T>{
 
     public void put(T t) throws InterruptedException {
         putLock.lock();
+        int c;
         try {
             while (count.get() == capacity) {
                 notFull.await();
             }
             this.enqueue(t);
-            signalNotEmpty();
+
+            c = this.count.getAndIncrement();
+            System.out.println(Thread.currentThread().getName() + "生产了一个Iron，现有"+ (c+1) +",还能存放的Iron为"+this.remainingCapacity());
+
+            if (c + 1 < capacity) {
+                notFull.signal();
+            }
+
         } finally {
             putLock.unlock();
         }
+
+        if (c == 0) {
+            signalNotEmpty();
+        }
     }
 
-    public void take() throws InterruptedException {
+    public T take() throws InterruptedException {
         takeLock.lock();
+        T res = null;
+        int c;
         try {
             while (count.get() == 0) {
                 notEmpty.await();
             }
-            this.dequeue();
-            signalNotFull();
+            res = this.dequeue();
+            c = this.count.getAndDecrement();
+            System.out.println(Thread.currentThread().getName() + "消耗了一个Iron，现有"+ (c-1) +",还能存放的Iron为"+this.remainingCapacity());
+
+            if (c > 1) {
+                notEmpty.signal();
+            }
         } finally {
             takeLock.unlock();
         }
+
+        if (c == capacity) {
+            signalNotFull();
+        }
+        return res;
     }
 
     private void enqueue(T t) {
         Node newNode = new KLinkedBlockingQueue.Node(t);
+
         if (null == last) {
             last = newNode;
             head = newNode;
@@ -65,20 +91,17 @@ public class KLinkedBlockingQueue<T>{
             last.next = newNode;
             last = last.next;
         }
-        this.count.getAndIncrement();
-        System.out.println(Thread.currentThread().getName() + "生产了一个Iron，现有"+ this.count +",还能存放的Iron为"+this.remainingCapacity());
     }
 
-    private void dequeue() {
+    private T dequeue() {
+        T res = (T)head.val;
         Node nextNode = head.next;
         head.next = null;
         head = nextNode;
         if (head == null) {
             last = null;
         }
-        this.count.getAndDecrement();
-        System.out.println(Thread.currentThread().getName() + "消耗了一个Iron，现有"+ this.count +",还能存放的Iron为"+this.remainingCapacity());
-
+        return res;
     }
 
     private void signalNotEmpty() {
