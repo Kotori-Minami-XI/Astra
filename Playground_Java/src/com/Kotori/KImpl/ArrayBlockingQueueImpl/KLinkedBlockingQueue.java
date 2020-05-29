@@ -1,6 +1,5 @@
 package com.Kotori.KImpl.ArrayBlockingQueueImpl;
 
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -27,8 +26,7 @@ public class KLinkedBlockingQueue<T>{
         notEmpty = takeLock.newCondition();
         notFull = putLock.newCondition();
 
-        head = null;
-        last = null;
+        last = head = new Node(null);
     }
 
     public void put(T t) throws InterruptedException {
@@ -46,7 +44,6 @@ public class KLinkedBlockingQueue<T>{
             if (c + 1 < capacity) {
                 notFull.signal();
             }
-
         } finally {
             putLock.unlock();
         }
@@ -81,26 +78,22 @@ public class KLinkedBlockingQueue<T>{
         return res;
     }
 
-    private void enqueue(T t) {
+    private void enqueue(T t){
         Node newNode = new KLinkedBlockingQueue.Node(t);
+        last.next = newNode;
+        last = last.next;
 
-        if (null == last) {
-            last = newNode;
-            head = newNode;
-        } else {
-            last.next = newNode;
-            last = last.next;
-        }
+        assert (last != null);
     }
 
     private T dequeue() {
-        T res = (T)head.val;
         Node nextNode = head.next;
-        head.next = null;
+        head.next = head;
         head = nextNode;
-        if (head == null) {
-            last = null;
-        }
+
+        T res = (T)head.val;
+        head.val = null;
+
         return res;
     }
 
@@ -108,6 +101,8 @@ public class KLinkedBlockingQueue<T>{
         this.takeLock.lock();
         try {
             this.notEmpty.signal();
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             this.takeLock.unlock();
         }
@@ -117,6 +112,8 @@ public class KLinkedBlockingQueue<T>{
         this.putLock.lock();
         try {
             this.notFull.signal();
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             this.putLock.unlock();
         }

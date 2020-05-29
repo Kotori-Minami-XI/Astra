@@ -56,7 +56,7 @@ public class BlockingQueueTest {
         KLinkedBlockingQueue<Iron> queue = new KLinkedBlockingQueue(10);
 
         List<Thread> threads = new ArrayList();
-        for (int i=0;i<1;i++) {
+        for (int i=0;i<2;i++) {
             threads.add(new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -71,7 +71,7 @@ public class BlockingQueueTest {
             }));
         }
 
-        for (int i=0;i<1;i++) {
+        for (int i=0;i<3;i++) {
             threads.add(new Thread(new Runnable() {
                 @Override
                 public void run() {
