@@ -5,34 +5,23 @@ import java.util.List;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
 
+class A {
+    public void f() {
+        System.out.println("f");
+    }
+}
+
 public class Demo1 {
 
     @Test
-    public void test() throws InterruptedException {
-        List<Thread> list = new ArrayList<>();
-
-        for (int i=0;i<1;i++) {
-            list.add(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println("thread");
-                }
-            }));
-        }
-
-        for (Thread thread : list) {
-            thread.start();
-        }
-
-        for (Thread thread : list) {
-            thread.join();
-        }
+    public void test() throws InterruptedException, IllegalAccessException, InstantiationException {
+        Class clazz = A.class;
+        A a = (A) clazz.newInstance();
+        a.f();
     }
 
-    @Test
-    public void test2() {
 
-    }
+
 }
 
 
