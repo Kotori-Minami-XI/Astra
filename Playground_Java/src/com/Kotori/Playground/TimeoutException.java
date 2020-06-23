@@ -3,10 +3,13 @@ package com.Kotori.Playground;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 
 public class TimeoutException {
+    /***
+     * @brief
+     * @throws IOException
+     */
     @Test
     public void testTimeoutException() throws IOException {
         targetMethod();
@@ -34,17 +37,22 @@ public class TimeoutException {
                 return true;
             }
         });
-        Thread timer = new Thread(futureTask);
+
+        ExecutorService service = Executors.newSingleThreadExecutor();
 
         try {
-            timer.start();
+            Future future = service.submit(futureTask);
+            System.out.println(futureTask.get());
             Thread.sleep(3000);
             isTargetMethodFinished = true;
             System.out.println("targetMethod---end");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ExecutionException  e) {
             System.out.println("targetMethod--return");
             return;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            service.shutdown();
         }
     }
 }
