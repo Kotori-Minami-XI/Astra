@@ -3,8 +3,6 @@ package com.Kotori.Playground.DeadLock;
 import org.junit.Test;
 
 public class DeadlockDemo {
-    Integer resource_1 = 0;
-    Integer resource_2 = 0;
 
     /***
      * @brief  两个线程死锁场景
@@ -12,31 +10,44 @@ public class DeadlockDemo {
      */
     @Test
     public void testDeadlock() throws InterruptedException {
+        Object lock1 = new Object();
+        Object lock2 = new Object();
+
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("t1-----start");
-                while (true) {
-                    if (resource_2 == 1) {
-                        break;
+                System.out.println("t1--start");
+                synchronized (lock1) {
+                    System.out.println("t1获取了lock1");
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    synchronized (lock2) {
+                        System.out.println("t1获取了lock2");
                     }
                 }
-                resource_1 = 1;
-                System.out.println("t1-----end");
+                System.out.println("t1--end");
             }
         });
 
         Thread t2 = new Thread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("t2-----start");
-                while (true) {
-                    if (resource_1 == 1) {
-                        break;
+                System.out.println("t2--start");
+                synchronized (lock2) {
+                    System.out.println("t2获取了lock2");
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    synchronized (lock1) {
+                        System.out.println("t2获取了lock1");
                     }
                 }
-                resource_2 = 1;
-                System.out.println("t2-----end");
+                System.out.println("t2--end");
             }
         });
 
