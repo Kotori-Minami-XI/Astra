@@ -1,5 +1,6 @@
 package com.Kotori.Scene;
 
+import com.Kotori.Playground.Thread.ThreadPool;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -7,6 +8,11 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import static com.Kotori.Scene.HospitalScene.workStations;
+
+/***
+ * 未完工
+ */
+
 
 class Doctor{
     private String doctorName;
@@ -29,8 +35,12 @@ class Doctor{
         return doctorName;
     }
 
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "doctorName='" + doctorName + '\'' +
+                ", ticketList=" + ticketList +
+                '}';
     }
 }
 
@@ -47,16 +57,13 @@ class Ticket{
         return doctor;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-
     public String getTicketName() {
         return this.doctor.getDoctorName() + "的" + this.ticketName;
     }
 
-    public void setTicketName(String ticketName) {
-        this.ticketName = ticketName;
+    @Override
+    public String toString() {
+        return this.doctor.getDoctorName() + "的" + this.ticketName;
     }
 }
 
@@ -66,6 +73,10 @@ class WorkStation implements Callable<Ticket> {
 
     public WorkStation(String workStationName) {
         WorkStationName = workStationName;
+    }
+
+    public String getWorkStationName() {
+        return WorkStationName;
     }
 
     public void addDoctor(Doctor doctor) {
@@ -81,7 +92,6 @@ class WorkStation implements Callable<Ticket> {
     @Override
     public Ticket call() throws Exception {
         Thread.sleep(2000);//隔几秒发一张票
-        workStations.put(this);
         return offerTicket();
     }
 }
@@ -93,16 +103,22 @@ class Patient {
         this.patientName = patientName;
     }
 
-    public String getPatientName() {
-        return patientName;
-    }
-
     public void requestTicket() {
         try {
             WorkStation workStation = workStations.take();
-            Ticket ticket = workStation.offerTicket();
-            System.out.println(this.patientName + "得到了" + ticket.getTicketName());
-        } catch (InterruptedException e) {
+
+            FutureTask<Ticket> futureTask = new FutureTask(workStation);
+            futureTask.run();
+            Ticket ticket = futureTask.get();
+            if (null == ticket) {
+                System.out.println(workStation.getWorkStationName() + "发现已经没有票了");
+            } else {
+                System.out.println(this.patientName + "得到了" + ticket.getTicketName());
+            }
+            workStations.put(workStation);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -115,16 +131,23 @@ public class HospitalScene {
     public void testBlockingQueue() {
         int workStationNum = 4;
         int doctorNum = 5;
-        int patientNum = 1000;
+        int ticketNumPerDoc = 5;
+        int patientNum = 100;
+
+        List<Doctor> doctors = new ArrayList();
+        for (int j = 0; j < doctorNum; j++) {
+            doctors.add(new Doctor("Doctor"+j, ticketNumPerDoc));
+        }
 
         for (int i = 0; i < workStationNum; i++) {
             WorkStation workStation = new WorkStation("WorkStation" + i);
             for (int j = 0; j < doctorNum; j++) {
-                workStation.addDoctor(new Doctor("Doctor"+j, 5));
+                workStation.addDoctor(doctors.get(j));
             }
             workStations.offer(workStation);
         }
 
+        //ExecutorService service = Executors.newFixedThreadPool(workStationNum);
         for (int i = 0; i < patientNum; i++) {
             new Patient("patient"+i).requestTicket();
         }
@@ -133,6 +156,15 @@ public class HospitalScene {
             System.in.read();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testInit() {
+        int doctorNum = 5;
+        for (int m = 0; m < doctorNum; m++) {
+            Doctor doctor = new Doctor("Doctor" + m, 5);
+            System.out.println(doctor.toString());
         }
     }
 }
