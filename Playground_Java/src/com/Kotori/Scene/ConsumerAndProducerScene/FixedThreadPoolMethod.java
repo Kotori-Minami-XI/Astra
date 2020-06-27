@@ -11,6 +11,11 @@ import static com.Kotori.Scene.ConsumerAndProducerScene.FixedThreadPoolMethod.ta
 
 public class FixedThreadPoolMethod {
     static BlockingQueue<Iron> tasks = new LinkedBlockingQueue();
+
+    /***
+     * @brief  利用ThreadPool实现生产着消费者模型
+     * @throws IOException
+     */
     @Test
     public void testFixedThreadPoolMethod() throws IOException {
         int consumerNum = 4;
