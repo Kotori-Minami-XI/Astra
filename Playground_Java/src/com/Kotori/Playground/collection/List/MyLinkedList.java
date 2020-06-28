@@ -1,10 +1,8 @@
-package com.Kotori.Playground.List;
+package com.Kotori.Playground.collection.List;
 
 import org.junit.Test;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.ListIterator;
+import java.util.*;
 
 /***
  * Iterator和ListIterator主要区别在以下方面：
@@ -42,4 +40,5 @@ public class MyLinkedList {
         }
         System.out.println(list);
     }
+
 }

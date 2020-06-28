@@ -1,4 +1,4 @@
-package com.Kotori.Playground.Set;
+package com.Kotori.Playground.collection.Set;
 
 import org.junit.Test;
 

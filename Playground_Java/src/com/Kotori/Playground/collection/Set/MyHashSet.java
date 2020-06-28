@@ -1,8 +1,10 @@
-package com.Kotori.Playground.Set;
+package com.Kotori.Playground.collection.Set;
 
 import org.junit.Test;
 
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 
@@ -48,12 +50,38 @@ public class MyHashSet {
      */
     @Test
     public void testHashSet(){
-        Set<Student> set = new HashSet<Student>();
+        Set<Student> set = new HashSet();
         set.add(new Student("zs",20));
         set.add(new Student("zs",20));
         set.add(new Student("zs",20));
         for (Student stu : set){
             System.out.println(stu);
+        }
+    }
+
+    @Test
+    public void testIterateHashSet(){
+        Set<Student> set = new HashSet();
+        set.add(new Student("zs",20));
+        set.add(new Student("ls",20));
+        set.add(new Student("wc",20));
+
+        Iterator<Student> iterator = set.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
+
+    @Test
+    public void testLinkedHashSet(){
+        Set<Student> set = new LinkedHashSet();
+        set.add(new Student("aa",20));
+        set.add(new Student("bb",21));
+        set.add(new Student("cc",23));
+
+        Iterator<Student> iterator = set.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
         }
     }
 }
