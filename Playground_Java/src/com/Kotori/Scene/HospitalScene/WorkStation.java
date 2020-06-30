@@ -28,10 +28,8 @@ class WorkStation implements Runnable {
         int doctorIndex = random.nextInt(this.dashboard.getNrOfDoctor());
         Doctor doctor = dashboard.getDoctorByIndex(doctorIndex);
 
-        synchronized (doctor) {
-            Ticket ticket = doctor.removeTicket(this.dashboard);
-            return ticket;
-        }
+        Ticket ticket = doctor.removeTicket(this.dashboard);
+        return ticket;
     }
 
     @Override
