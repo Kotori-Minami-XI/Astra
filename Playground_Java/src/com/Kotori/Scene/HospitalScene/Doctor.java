@@ -25,6 +25,10 @@ class Doctor{
         }
     }
 
+    public Queue<Ticket> getTicketList() {
+        return ticketList;
+    }
+
     public Boolean isTicketEmpty() {
         return (ticketList.size() == 0);
     }

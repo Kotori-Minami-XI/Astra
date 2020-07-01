@@ -28,6 +28,11 @@ class WorkStation implements Runnable {
         int doctorIndex = random.nextInt(this.dashboard.getNrOfDoctor());
         Doctor doctor = dashboard.getDoctorByIndex(doctorIndex);
 
+        while (!dashboard.isAllTicketSold() && doctor.isTicketEmpty()) {
+            doctorIndex++;
+            doctor = dashboard.getDoctorByIndex(doctorIndex % this.dashboard.getNrOfDoctor());
+        }
+
         Ticket ticket = doctor.removeTicket(this.dashboard);
         return ticket;
     }
@@ -35,15 +40,16 @@ class WorkStation implements Runnable {
     @Override
     public void run() {
         try {
-            if (dashboard.isAllTicketSold()) {
-                System.out.println("所有票已经售完，关闭" + this.WorkStationName);
-                return;
-            }
             Patient patient = this.waitingRoom.take();
             Thread.sleep(500);//隔几秒发一张票
             Ticket ticket = offerTicket();
             if (ticket != null) {
                 patient.obtainTicket(ticket);
+            } else {
+                if (dashboard.isAllTicketSold()) {
+                    System.out.println("所有票已经售完，关闭" + this.WorkStationName);
+                    return;
+                }
             }
             service.execute(this);
         } catch (InterruptedException e) {
