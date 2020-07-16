@@ -26,7 +26,6 @@ public class NewFixedThreadPoolDemo {
     @Test
     public void testBasicFunction1() throws IOException, InterruptedException {
         ExecutorService service = Executors.newFixedThreadPool(3);
-
         while (true) {
             service.execute(new Runnable() {
                 @Override
