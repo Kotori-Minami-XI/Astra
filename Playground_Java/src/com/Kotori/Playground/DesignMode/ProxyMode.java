@@ -2,57 +2,35 @@ package com.Kotori.Playground.DesignMode;
 
 import org.junit.Test;
 
-interface Protocol{
-    void ListenCry();
-    void ListenFight();
+interface HouseService {
+    void buyHouse();
 }
 
-class Nanny implements Protocol{
-    private String name;
-    public Nanny(String name){
-        this.name = name;
-    }
-    @Override
-    public void ListenCry() {
-        System.out.println(this.name + "处理baby哭闹");
-    }
-
-    @Override
-    public void ListenFight() {
-        System.out.println(this.name + "处理baby打架");
+class HouseServiceImpl implements HouseService {
+    public void buyHouse() {
+        System.out.println("Buy house");
     }
 }
 
-class Baby{
-    private Protocol proxy = null;
+class HouseServiceProxy implements HouseService{
+    private HouseService houseService;
 
-    public void setProxy(Protocol proxy) {
-        this.proxy = proxy;
+    public HouseServiceProxy(HouseService houseService) {
+        this.houseService = houseService;
     }
 
-    public void babyCry(){
-        this.proxy.ListenCry();
-    }
-
-    public void babyFight(){
-        this.proxy.ListenFight();
+    @Override
+    public void buyHouse() {
+        System.out.println("Before Buy house");
+        houseService.buyHouse();
+        System.out.println("After Buy house");
     }
 }
 
 public class ProxyMode {
-    /***
-     * 测试代理模式，一个满足proxy协议的Nanny监听一个baby的行为
-     */
-    @Test
-    public void testProxy(){
-        Baby baby = new Baby();
-        baby.setProxy(new Nanny("保姆1"));
-        baby.babyCry();
-        baby.babyFight();
-
-        //换保姆
-        baby.setProxy(new Nanny("保姆2"));
-        baby.babyCry();
-        baby.babyFight();
+    public static void main(String[] args) {
+        HouseServiceProxy proxy = new HouseServiceProxy(new HouseServiceImpl());
+        proxy.buyHouse();
     }
 }
+
