@@ -89,7 +89,6 @@ public class Person {
     }
 
     private void infect(int range, int infectProbability) {
-
     }
 
 
