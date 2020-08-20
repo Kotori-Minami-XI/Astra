@@ -115,14 +115,8 @@ public class Person {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "personId=" + personId +
-                ", personName='" + personName + '\'' +
-                ", isInfected=" + isInfected +
-                ", personLocationPoint=" + personLocationPoint +
-                '}';
+    public Point getPersonLocationPoint() {
+        return personLocationPoint;
     }
 
     @Override

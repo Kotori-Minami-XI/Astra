@@ -8,13 +8,11 @@ public class CoronaSimulator {
 
     @Test
     public void testMove() {
-        Background.InitBackground(100,100);
-        Person person = new Person(0, "person0");
-        System.out.println(person);
-        person.randomMove(1);
-        System.out.println(person);
-        person.randomMove(1);
-        System.out.println(person);
+        Background.initBackground(100,100);
+
+        for (int i = 0; i < 100; i++) {
+            Person person = new Person(i, "person" + i);
+        }
     }
 
 }

@@ -6,7 +6,7 @@ public class Background {
     static Point pointCollection[][];
     public static Background background;
 
-    public static Background InitBackground(Integer width, Integer height) {
+    public static Background initBackground(Integer width, Integer height) {
         if (background == null) {
             background = new Background(width, height);
         }
@@ -24,9 +24,5 @@ public class Background {
         this.width = width;
         this.height = height;
         pointCollection = new Point[height][width];
-    }
-
-    public Point getPoint(Integer x, Integer y) {
-        return pointCollection[x][y];
     }
 }
