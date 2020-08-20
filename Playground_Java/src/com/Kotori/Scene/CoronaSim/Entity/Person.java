@@ -1,6 +1,7 @@
 package com.Kotori.Scene.CoronaSim.Entity;
 
 import java.util.Random;
+import java.util.Set;
 
 public class Person {
     private Integer personId;
@@ -27,7 +28,7 @@ public class Person {
         infect(range, infectProbability);
     }
 
-    private void randomMove(int distance) {
+    public void randomMove(int distance) {
         Integer currentCoordinateX = personLocationPoint.getCoordinateX();
         Integer currentCoordinateY = personLocationPoint.getCoordinateY();
 
@@ -89,8 +90,40 @@ public class Person {
     }
 
     private void infect(int range, int infectProbability) {
+        int left = this.personLocationPoint.getCoordinateX() - range;
+        left = left < 0 ? 0 : left;
+
+        int right = this.personLocationPoint.getCoordinateX() + range;
+        right = right > Background.width-1 ?  Background.width-1 : right;
+
+        int top = this.personLocationPoint.getCoordinateY() + range;
+        top = top > Background.height-1 ? Background.height-1 : top;
+
+        int bot = this.personLocationPoint.getCoordinateY() - range;
+        bot = bot < 0 ? 0 : bot;
+
+        for (int i = bot; i <= top; i++) {
+            for (int j = left; j <= right; j++) {
+                Point curPoint = Background.pointCollection[i][j];
+                Set<Person> personSet = curPoint.getPersonSet();
+                for (Person person : personSet) {
+                    if (new Random().nextInt(100) <= infectProbability) {
+                        person.isInfected = true;
+                    }
+                }
+            }
+        }
     }
 
+    @Override
+    public String toString() {
+        return "Person{" +
+                "personId=" + personId +
+                ", personName='" + personName + '\'' +
+                ", isInfected=" + isInfected +
+                ", personLocationPoint=" + personLocationPoint +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -4,9 +4,9 @@ public class Background {
     static Integer width;
     static Integer height;
     static Point pointCollection[][];
-    private static Background background;
+    public static Background background;
 
-    public Background InitBackground(Integer width, Integer height) {
+    public static Background InitBackground(Integer width, Integer height) {
         if (background == null) {
             background = new Background(width, height);
         }

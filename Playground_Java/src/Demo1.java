@@ -32,11 +32,12 @@ public class Demo1 {
         System.out.println(b == c); // No
         System.out.println(b == d); // No
 
+
     }
 
     @Test
     public void test1() {
-        int a;
+
     }
 }
 
