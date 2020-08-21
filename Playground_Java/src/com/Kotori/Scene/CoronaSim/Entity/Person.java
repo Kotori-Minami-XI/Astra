@@ -119,6 +119,10 @@ public class Person {
         return personLocationPoint;
     }
 
+    public Boolean isisInfected() {
+        return this.isInfected;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
