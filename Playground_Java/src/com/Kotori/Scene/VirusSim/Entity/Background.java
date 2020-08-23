@@ -1,4 +1,4 @@
-package com.Kotori.Scene.CoronaSim.Entity;
+package com.Kotori.Scene.VirusSim.Entity;
 
 public class Background {
     static Integer width;

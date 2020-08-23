@@ -29,6 +29,7 @@ public class KCountDownLatch {
     }
 
     public void await() {
+
         if (this.count.get() == 0) {
             return;
         }

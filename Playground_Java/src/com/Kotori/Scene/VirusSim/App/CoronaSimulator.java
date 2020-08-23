@@ -1,7 +1,7 @@
-package com.Kotori.Scene.CoronaSim.App;
+package com.Kotori.Scene.VirusSim.App;
 
-import com.Kotori.Scene.CoronaSim.Entity.Background;
-import com.Kotori.Scene.CoronaSim.Entity.Person;
+import com.Kotori.Scene.VirusSim.Entity.Background;
+import com.Kotori.Scene.VirusSim.Entity.Person;
 import org.junit.Test;
 
 public class CoronaSimulator {

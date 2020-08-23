@@ -1,4 +1,4 @@
-package com.Kotori.Scene.CoronaSim.Entity;
+package com.Kotori.Scene.VirusSim.Entity;
 
 import java.util.Random;
 import java.util.Set;
@@ -119,7 +119,7 @@ public class Person {
         return personLocationPoint;
     }
 
-    public Boolean isisInfected() {
+    public Boolean isInfected() {
         return this.isInfected;
     }
 

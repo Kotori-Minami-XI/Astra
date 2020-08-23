@@ -1,4 +1,4 @@
-package com.Kotori.Scene.CoronaSim.Entity;
+package com.Kotori.Scene.VirusSim.Entity;
 
 import java.util.HashSet;
 import java.util.Set;
