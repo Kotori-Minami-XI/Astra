@@ -23,15 +23,17 @@ public class Demo1 {
 //                break;
 //        }
 
-        Integer a =Integer.valueOf(59);
-        Integer b = new Integer(59);
-        Integer c = 59;
-        Integer d = new Integer(59);
-        System.out.println(a == b); // No
-        System.out.println(a == c); // Yes
-        System.out.println(b == c); // No
-        System.out.println(b == d); // No
+//        Integer a =Integer.valueOf(59);
+//        Integer b = new Integer(59);
+//        Integer c = 59;
+//        Integer d = new Integer(59);
+//        System.out.println(a == b); // No
+//        System.out.println(a == c); // Yes
+//        System.out.println(b == c); // No
+//        System.out.println(b == d); // No
 
+        StringBuilder stringBuilder = new StringBuilder("123");
+        System.out.println(stringBuilder);
 
     }
 

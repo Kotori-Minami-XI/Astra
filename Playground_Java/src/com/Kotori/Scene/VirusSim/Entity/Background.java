@@ -39,7 +39,7 @@ public class Background {
                 Point point = pointCollection[i][j];
                 for (Person person : point.getPersonSet()) {
                     numOfTotalPerson++;
-                    if (person.isisInfected()) {
+                    if (person.isInfected()) {
                         numOfInfectedPerson++;
                     }
                 }
