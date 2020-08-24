@@ -32,6 +32,7 @@ public class Demo1 {
 //        System.out.println(b == c); // No
 //        System.out.println(b == d); // No
 
+
         StringBuilder stringBuilder = new StringBuilder("123");
         System.out.println(stringBuilder);
 
