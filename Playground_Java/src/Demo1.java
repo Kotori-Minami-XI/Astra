@@ -36,11 +36,6 @@ public class Demo1 {
         System.out.println(stringBuilder);
 
     }
-
-    @Test
-    public void test1() {
-
-    }
 }
 
 interface I {
