@@ -34,7 +34,6 @@ public class Demo1 {
 
         StringBuilder stringBuilder = new StringBuilder("123");
         System.out.println(stringBuilder);
-
     }
 }
 
