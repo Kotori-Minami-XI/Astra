@@ -6,11 +6,11 @@ public class Player {
     private Boolean online;
     private Preference preference;
 
-    public Player(Integer playerId, Integer playerName) {
+    public Player(Integer playerId, Integer playerName, Preference preference) {
         this.playerId = playerId;
         this.playerName = playerName;
         this.online = false;
-        preference = null;
+        this.preference = preference;
     }
 
     public Integer getPlayerId() {
